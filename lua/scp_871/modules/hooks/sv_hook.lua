@@ -1,0 +1,6 @@
+hook.Add("SCP-871:OnEatingCake", "SCP-871:OnEatingCake-RespawnCake", function(cake)
+    local cakePos = cake:GetPos()
+    timer.Simple(SCP_871_CONFIG.Settings.DelayRespawn, function()
+        scp_871.SpawnCake(cakePos)
+    end)
+end)
