@@ -1,11 +1,12 @@
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 
--- TODO : gérer s'il a été détruit -> alors le respawn direct
 function ENT:Initialize()
 	self:ManageModel()
 	self:RebuildPhysics()
+	self:SetHealth( 10 )
 	SCP_871_CONFIG.Var.CountCake = SCP_871_CONFIG.Var.CountCake + 1
+	self:StartDuplication()
 end
 
 -- TODO : Gérer les anomalies (mettre des bodygroup ?)
@@ -26,14 +27,33 @@ end
 function ENT:Use(activator, caller)
 	if not IsValid(activator) or not activator:IsPlayer() then return end
 
-	self.WasEaten = true
 	activator:EmitSound(SCP_871_CONFIG.Sounds.Eat)
+	self:DestroyOrEaten()
+end
+
+function ENT:OnRemove()
+	SCP_871_CONFIG.Var.CountCake = SCP_871_CONFIG.Var.CountCake - 1
+	timer.Remove("SCP-871:StartDuplication-" .. self:EntIndex())
+end
+
+function ENT:OnTakeDamage( dmginfo )
+	local DmgReceive = dmginfo:GetDamage()
+	-- TODO : vérifier si l'entité perd des hp
+	self:SetHealth(math.Clamp(0, self:Health() - DmgReceive))
+	if (self:Health() <= 0) then
+		self:DestroyOrEaten()
+	end
+end
+
+function ENT:DestroyOrEaten()
 	hook.Call("SCP-871:OnEatingCake", nil, self)
 	self:Remove()
 end
 
-function ENT:OnRemove()
-	if (not self.WasEaten) then
-		SCP_871_CONFIG.Var.CountCake = SCP_871_CONFIG.Var.CountCake - 1
-	end
+function ENT:StartDuplication()
+	timer.Create("SCP-871:StartDuplication-" .. self:EntIndex(), SCP_871_CONFIG.Settings.DelayRespawn, 0, function()
+		if (IsValid(self)) then
+			scp_871.SpawnCake(self:GetPos())
+		end
+	end)
 end
