@@ -4,7 +4,8 @@ include("shared.lua")
 function ENT:Initialize()
 	self:ManageModel()
 	self:RebuildPhysics()
-	self:SetHealth( 10 )
+	self:SetHealth( SCP_871_CONFIG.Settings.HealthCake )
+	self:SetMaxHealth( SCP_871_CONFIG.Settings.HealthCake )
 	SCP_871_CONFIG.Var.CountCake = SCP_871_CONFIG.Var.CountCake + 1
 	self:StartDuplication()
 end
@@ -12,7 +13,7 @@ end
 -- TODO : Gérer les anomalies (mettre des bodygroup ?)
 function ENT:ManageModel()
 	self:SetModel(SCP_871_CONFIG.Models.Cake)
-	self:SetModelScale(math.random(0.3, 2))
+	self:SetModelScale(math.random(0.8, 1.5))
 end
 
 -- Initialise the physic of the entity
@@ -38,8 +39,7 @@ end
 
 function ENT:OnTakeDamage( dmginfo )
 	local DmgReceive = dmginfo:GetDamage()
-	-- TODO : vérifier si l'entité perd des hp
-	self:SetHealth(math.Clamp(0, self:Health() - DmgReceive))
+	self:SetHealth(math.Clamp(0, self:Health() - DmgReceive, self:GetMaxHealth()))
 	if (self:Health() <= 0) then
 		self:DestroyOrEaten()
 	end
@@ -51,7 +51,7 @@ function ENT:DestroyOrEaten()
 end
 
 function ENT:StartDuplication()
-	timer.Create("SCP-871:StartDuplication-" .. self:EntIndex(), SCP_871_CONFIG.Settings.DelayRespawn, 0, function()
+	timer.Create("SCP-871:StartDuplication-" .. self:EntIndex(), SCP_871_CONFIG.Settings.DelayRespawn + math.random(0, 2), 0, function()
 		if (IsValid(self)) then
 			scp_871.SpawnCake(self:GetPos())
 		end
