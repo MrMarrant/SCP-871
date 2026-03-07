@@ -16,7 +16,9 @@ function ENT:ManageModel()
 	self:SetModelScale(math.random(0.8, 1.5))
 	local bg_01 = math.random(0, 1)
 	local bg_02 = math.random(0, 1)
-	self:SetBodyGroups("0" .. bg_01 .. bg_02)
+	local bg_03 = math.random(0, 1)
+	local bg_04 = math.random(0, 1)
+	self:SetBodyGroups("0" .. bg_01 .. bg_02 .. bg_03 .. bg_04)
 end
 
 -- Initialise the physic of the entity
