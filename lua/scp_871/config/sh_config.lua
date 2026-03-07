@@ -7,11 +7,18 @@ SCP_871_CONFIG.NetVar = {}
 
 -- Model Path
 SCP_871_CONFIG.Models = {}
-SCP_871_CONFIG.Models.Cake = Model("models/Gibs/HGIBS.mdl")
+SCP_871_CONFIG.Models.Cake = Model("models/scp_871/scp_871.mdl")
 
 --Sound Path
 SCP_871_CONFIG.Sounds = {}
-SCP_871_CONFIG.Sounds.Eat = Sound("")
+SCP_871_CONFIG.Sounds.Spawn = Sound("scp_871/spawn_cake.mp3")
+SCP_871_CONFIG.Sounds.Explosion = Sound("scp_871/explosion_cake.mp3")
+
+SCP_871_CONFIG.Sounds.Eat = {}
+SCP_871_CONFIG.Sounds.Eat[1] = Sound("scp_871/eat_01.mp3")
+SCP_871_CONFIG.Sounds.Eat[2] = Sound("scp_871/eat_02.mp3")
+SCP_871_CONFIG.Sounds.Eat[3] = Sound("scp_871/eat_03.mp3")
+SCP_871_CONFIG.Sounds.Eat[4] = Sound("scp_871/eat_04.mp3")
 
 -- Settings
 SCP_871_CONFIG.Settings = {}
