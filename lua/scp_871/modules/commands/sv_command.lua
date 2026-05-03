@@ -19,8 +19,8 @@ concommand.Add("scp_871_clear_all_cake", function(ply, cmd, args, argStr)
         for k, v in ipairs( ents.FindByClass( "scp_871" ) ) do
             v:Remove()
         end
-        ply:ChatPrint("All cakes and timers related to SCP-871 have been cleared.")
+        ply:ChatPrint("All instances of SCP-871 and timers related to SCP-871 have been cleared.")
     else
         ply:ChatPrint("You need to be admin/superadmin for using this command.")
     end
-end, nil, "Clear all cakes and timers created related to SCP-871.")
+end, nil, "Clear all instances of SCP-871 and timers created related to SCP-871.")
