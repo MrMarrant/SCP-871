@@ -13,7 +13,7 @@ end
 
 function ENT:ManageModel()
 	self:SetModel(SCP_871_CONFIG.Models.Cake)
-	self:SetModelScale(math.random(0.8, 1.5))
+	self:SetModelScale(math.random(0.8, 1.5), 0.000001)
 	local bg_01 = math.random(0, 1)
 	local bg_02 = math.random(0, 1)
 	local bg_03 = math.random(0, 1)
