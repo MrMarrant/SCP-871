@@ -12,3 +12,12 @@ function scp_871.SpawnCake(pos)
     ent:Spawn()
     ent:Activate()
 end
+
+function scp_871.OnCakeEaten(ply)
+    ply:SetVar("SCP-871:CanEat", false)
+    timer.Create("SCP-871:CanEat-" .. ply:SteamID64(), SCP_871_CONFIG.Settings.DelayEat, 1, function()
+        if IsValid(ply) then
+            ply:SetVar("SCP-871:CanEat", true)
+        end
+    end)
+end

@@ -32,10 +32,15 @@ end
 
 function ENT:Use(activator, caller)
 	if not IsValid(activator) or not activator:IsPlayer() then return end
+	if not activator:GetVar("SCP-871:CanEat", false) then
+		activator:PrintMessage(HUD_PRINTTALK, "You cannot eat this cake yet.")
+		return 
+	end
 
-		local eatSounds = SCP_871_CONFIG.Sounds.Eat
-		activator:EmitSound(eatSounds[math.random(#eatSounds)])
-		self:DestroyOrEaten()
+	local eatSounds = SCP_871_CONFIG.Sounds.Eat
+	activator:EmitSound(eatSounds[math.random(#eatSounds)])
+	scp_871.OnCakeEaten(activator)
+	self:DestroyOrEaten()
 end
 
 function ENT:OnRemove()
