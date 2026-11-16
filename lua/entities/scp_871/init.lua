@@ -7,6 +7,8 @@ function ENT:Initialize()
 	self:SetHealth( SCP_871_CONFIG.Settings.HealthCake )
 	self:SetMaxHealth( SCP_871_CONFIG.Settings.HealthCake )
 	SCP_871_CONFIG.Var.CountCake = SCP_871_CONFIG.Var.CountCake + 1
+	self:SetSpawnTime(CurTime())
+	self.IsInitialized = true
 	self:StartDuplication()
 	self:EmitSound(SCP_871_CONFIG.Sounds.Spawn, 75, math.random(95, 105), 1, CHAN_AUTO)
 end
@@ -44,6 +46,9 @@ function ENT:Use(activator, caller)
 end
 
 function ENT:OnRemove()
+	-- Removed before spawning (no free spot found)
+	if not self.IsInitialized then return end
+
 	SCP_871_CONFIG.Var.CountCake = SCP_871_CONFIG.Var.CountCake - 1
 	timer.Remove("SCP-871:StartDuplication-" .. self:EntIndex())
 	local effectdata = EffectData()
